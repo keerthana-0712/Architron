@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Architron | High-Performance Engineering Portfolio
 
-## Getting Started
+Architron is a production-grade engineering portfolio system designed to showcase advanced software architecture, system design thinking, and high-performance product engineering. It goes beyond a static showcase, featuring real-time simulations, interactive system visualizations, and an integrated engineering dashboard.
 
-First, run the development server:
+## 🚀 Key Engineering Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Interactive System Architecture Visualization**: Dynamic, node-based diagrams demonstrating complex microservices topologies, including API Gateways, Load Balancers, and Distributed Databases.
+- **Reactive Engineering Console**: A terminal-style communication hub with real-time process logs, simulated system feedback, and form orchestration.
+- **Live System Metrics**: Real-time simulation of P99 latency, throughput (req/s), and system health monitoring.
+- **Multi-Project Deep Dives**: Comprehensive breakdowns of individual projects featuring technical highlights, architectural rationale, and schema definitions.
+- **Optimized Performance**: Built for sub-100ms LCP (Largest Contentful Paint) using Next.js App Router and Edge Runtime optimization.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: Next.js 15+, React 19, Tailwind CSS 4, Framer Motion (Orchestrated Animations)
+- **Icons & Visuals**: Lucide React, Custom CSS-Grid Visuals
+- **Backend/Data**: Prisma ORM, PostgreSQL (via Supabase), Clerk (Authentication)
+- **Deployment**: Vercel (Edge Functions, CI/CD)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧠 Technical Challenges & Solutions
 
-## Learn More
+### 1. Complex Animation Orchestration
+**Challenge**: Creating a highly interactive, "living" UI with multiple simultaneous animations (grid pulses, orbital rotations, terminal logs) without causing layout shifts or CPU spikes.
+**Solution**: Leveraged `framer-motion` for hardware-accelerated animations and used `AnimatePresence` for smooth state transitions. Implemented CSS-only grid animations for background elements to minimize JS overhead.
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Real-Time Log Simulation
+**Challenge**: Developing a terminal console that feels "live" and responsive to user input while maintaining high performance.
+**Solution**: Built a custom log-buffering system in React that processes incoming "signals" and updates the console with color-coded severity levels. Used `useRef` for automatic scroll-to-bottom behavior and `useEffect` for cleanup of simulated processes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Scalable Architecture Visualization
+**Challenge**: Representing complex distributed systems in a way that is both visually stunning and technically accurate.
+**Solution**: Developed a modular `ProjectArchitecture` component that maps data-driven node definitions to a responsive SVG/HTML hybrid layout. This allows for instant updates to system diagrams via a centralized `projects.ts` configuration.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💻 Getting Started
 
-## Deploy on Vercel
+### Prerequisites
+- Node.js 18+
+- npm / pnpm / yarn
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your `.env` file with Supabase and Clerk credentials.
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+This project is for professional demonstration purposes. All rights reserved.
