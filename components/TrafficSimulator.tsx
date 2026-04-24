@@ -50,7 +50,7 @@ export default function TrafficSimulator({ baseThroughput, baseLatency }: Traffi
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 relative z-10">
         <div className="space-y-1">
           <span className="text-[10px] font-bold text-muted-foreground uppercase flex items-center gap-1.5">
             <Gauge size={10} /> Throughput

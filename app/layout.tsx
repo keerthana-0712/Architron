@@ -57,6 +57,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Application Root Layout
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
