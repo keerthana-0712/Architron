@@ -32,11 +32,17 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      return NextResponse.json({ error }, { status: 400 });
+      console.error('Resend Error:', error);
+      return NextResponse.json({ 
+        error: error.message || 'Failed to send email' 
+      }, { status: 400 });
     }
 
-    return NextResponse.json({ data });
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ success: true, data });
+  } catch (error: any) {
+    console.error('Contact API Error:', error);
+    return NextResponse.json({ 
+      error: error.message || 'Internal Server Error' 
+    }, { status: 500 });
   }
 }

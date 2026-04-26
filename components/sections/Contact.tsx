@@ -59,7 +59,9 @@ export default function Contact() {
         setStatus("success");
         (e.target as HTMLFormElement).reset();
       } else {
-        addLog("ERROR: Service is currently busy.");
+        const errorData = await response.json();
+        const errorMessage = errorData.error || "Service is currently busy.";
+        addLog(`ERROR: ${errorMessage}`);
         setStatus("error");
       }
     } catch (error) {

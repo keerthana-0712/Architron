@@ -13,6 +13,7 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: 1
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
       CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}

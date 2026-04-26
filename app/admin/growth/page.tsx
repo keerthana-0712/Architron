@@ -10,12 +10,21 @@ import CopyableUTMLink from "@/components/admin/CopyableUTMLink";
 import HistoricalChart from "@/components/admin/HistoricalChart";
 import TrafficSimulator from "@/components/TrafficSimulator";
 import { db } from "@/lib/db";
+import { ContactMessage } from "@prisma/client";
+
+export const dynamic = "force-dynamic";
 
 export default async function GrowthPage() {
-  // Fetch real contact messages for Contact Intelligence
-  const messages = await db.contactMessage.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  let messages: ContactMessage[] = [];
+  try {
+    // Fetch real contact messages for Contact Intelligence
+    messages = await db.contactMessage.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Growth Page Database Error:", error);
+    // Fallback to empty messages or simulated data if needed
+  }
 
   const totalMessages = messages.length;
   // Calculate messages in last 7 days vs previous 7 days

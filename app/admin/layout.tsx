@@ -9,7 +9,26 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await currentUser();
+  let user;
+  try {
+    user = await currentUser();
+  } catch (error) {
+    console.error("Clerk Authentication Error:", error);
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground p-6">
+        <div className="max-w-md w-full text-center space-y-6 border-2 border-dashed border-red-500/20 p-8 rounded-3xl bg-red-500/5">
+          <div className="text-red-500 mb-4">
+            <Shield size={48} className="mx-auto" />
+          </div>
+          <h1 className="text-2xl font-bold">Security Module Error</h1>
+          <p className="text-muted-foreground">
+            The authentication system is currently unavailable. This usually happens when API keys are missing or invalid.
+          </p>
+          <a href="/" className="inline-block mt-4 text-accent hover:underline">Return to safety</a>
+        </div>
+      </div>
+    );
+  }
 
   if (!user) {
     redirect("/sign-in");
