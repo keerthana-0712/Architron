@@ -25,34 +25,29 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
-          cache-dependency-path: './portfolio/package-lock.json'
+          cache-dependency-path: 'package-lock.json'
 
       - name: Install Dependencies
         run: |
-          cd portfolio
           npm ci
 
       - name: Generate Prisma Client
         run: |
-          cd portfolio
           npx prisma generate
 
       - name: Lint
         run: |
-          cd portfolio
           npm run lint
 
       - name: Build
         run: |
-          cd portfolio
           npm run build
 
       - name: Deploy to Vercel (Production)
         if: github.ref == 'refs/heads/main'
         run: |
-          cd portfolio
           npx vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --yes
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -61,7 +56,6 @@ jobs:
       - name: Deploy to Vercel (Preview)
         if: github.event_name == 'pull_request'
         run: |
-          cd portfolio
           npx vercel --token ${{ secrets.VERCEL_TOKEN }} --yes
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
