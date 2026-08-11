@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import { Briefcase, Calendar, CheckCircle2, Hammer, Laptop } from "lucide-react";
 import { useState } from "react";
 
-export default function Experience() {
+export default function Experience({ initialExperiences }: { initialExperiences?: any[] }) {
   const [activeTab, setActiveTab] = useState<"building" | "work">("building");
 
   const buildingExperience = [
     {
       company: "FOTHS (Fire of the Holy Spirit)",
       role: "Lead Product Engineer",
-      period: "2023 - Present",
+      period: "2024 - Present",
       achievements: [
         "Designed a multi-module spiritual platform with 30+ integrated systems",
         "Built product architecture for global-scale user interaction",
@@ -22,7 +22,7 @@ export default function Experience() {
     {
       company: "Clientra | Agency OS",
       role: "Full Stack Engineer & Architect",
-      period: "2024",
+      period: "2025 - Present",
       achievements: [
         "Architected a scalable multi-tenant SaaS platform supporting unlimited agencies and dedicated client portals.",
         "Engineered real-time status synchronization between frontend Kanban boards and backend WebSocket gateways.",
@@ -33,7 +33,7 @@ export default function Experience() {
     {
       company: "Ambassadors for the Lord",
       role: "Systems Architect",
-      period: "2023",
+      period: "2025 - Present",
       achievements: [
         "Designed and built a triple-tier spiritual sanctuary architecture ensuring 100% data integrity and user privacy.",
         "Implemented low-latency WebSocket communication for real-time spiritual counseling and community support.",
@@ -86,6 +86,13 @@ export default function Experience() {
     }
   ];
 
+  const list = initialExperiences && initialExperiences.length > 0 ? initialExperiences : [...buildingExperience, ...workExperience];
+  // If we are using database data, order by database timestamp or order as seeded
+  // Since we seeded in order, we can reverse it if needed, or keep order. Let's keep order
+  const dbBuilding = list.filter((exp: any) => exp.type === "building");
+  const dbWork = list.filter((exp: any) => exp.type === "work");
+  const activeList = activeTab === "building" ? dbBuilding : dbWork;
+
   return (
     <section id="experience" className="py-24 container mt-10">
       <div className="max-w-4xl mx-auto">
@@ -122,7 +129,7 @@ export default function Experience() {
         </div>
 
         <div className="space-y-12">
-          {(activeTab === "building" ? buildingExperience : workExperience).map((exp, i) => (
+          {activeList.map((exp, i) => (
             <motion.div
               key={`${exp.company}-${activeTab}`}
               initial={{ opacity: 0, x: -20 }}
@@ -145,7 +152,7 @@ export default function Experience() {
               </div>
 
               <ul className="space-y-4">
-                {exp.achievements.map((achievement, idx) => (
+                {(exp.achievements as string[]).map((achievement: string, idx: number) => (
                   <li key={idx} className="flex items-start gap-3 text-muted-foreground leading-relaxed">
                     <CheckCircle2 size={18} className="text-accent shrink-0 mt-1" />
                     <span>{achievement}</span>

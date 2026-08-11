@@ -9,6 +9,23 @@ export default function Contact() {
   const [logs, setLogs] = useState<string[]>(["SYSTEM_INIT: Contact protocol online.", "READY: Awaiting input parameters..."]);
   const [metrics, setMetrics] = useState({ latency: 0, node: "US-EAST-1", health: 100 });
   const logContainerRef = useRef<HTMLDivElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const handleInquireEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ service: string }>;
+      const service = customEvent.detail?.service;
+      if (service) {
+        addLog(`INQUIRY: Initializing parameter validation for "${service}"...`);
+        if (messageRef.current) {
+          messageRef.current.value = `Hi Keerthana, I'd like to inquire about your "${service}" services. Let's discuss details!`;
+          messageRef.current.focus();
+        }
+      }
+    };
+    window.addEventListener("inquire-service", handleInquireEvent);
+    return () => window.removeEventListener("inquire-service", handleInquireEvent);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -203,6 +220,7 @@ export default function Contact() {
                         Message
                       </label>
                       <textarea
+                        ref={messageRef}
                         required
                         name="message"
                         onFocus={() => handleInputFocus("Message")}

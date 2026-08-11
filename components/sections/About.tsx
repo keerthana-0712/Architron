@@ -55,7 +55,7 @@ export default function About() {
             <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed">
               <p>
                 My approach to software engineering centers on the belief that code is a means to an end, not the end itself. 
-                I view every architectural decision through the lens of <strong className="text-foreground">product outcome</strong> and <strong className="text-foreground">system reliability</strong>.
+                I view every architectural decision through the lens of <strong className="text-foreground">Product Outcome</strong> and <strong className="text-foreground">System Reliability</strong>.
               </p>
               <p className="mt-4">
                 Whether deploying microservices on Kubernetes, sharding massive Postgres databases, or refining sub-100ms API responses, 

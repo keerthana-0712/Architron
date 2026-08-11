@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Clock, User, MessageSquare, X, ExternalLink } from "lucide-react";
+import { Mail, Clock, User, MessageSquare, X, ExternalLink, Trash2, CheckSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ContactMessage {
@@ -9,30 +9,99 @@ interface ContactMessage {
   name: string;
   email: string;
   message: string;
+  isRead: boolean;
   createdAt: Date;
 }
 
 export default function MessageList({ initialMessages }: { initialMessages: ContactMessage[] }) {
+  const [messages, setMessages] = useState<ContactMessage[]>(initialMessages);
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSelectMessage = async (msg: ContactMessage) => {
+    setSelectedMessage(msg);
+    
+    // If it's unread, mark it as read in the database
+    if (!msg.isRead) {
+      try {
+        const res = await fetch("/api/contact", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: msg.id, isRead: true })
+        });
+        if (res.ok) {
+          // Update local state
+          const updatedMessages = messages.map(m => m.id === msg.id ? { ...m, isRead: true } : m);
+          setMessages(updatedMessages);
+          setSelectedMessage({ ...msg, isRead: true });
+        }
+      } catch (err) {
+        console.error("Failed to mark message as read:", err);
+      }
+    }
+  };
+
+  const handleToggleRead = async (id: string, currentStatus: boolean, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent modal opening
+    try {
+      const res = await fetch("/api/contact", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, isRead: !currentStatus })
+      });
+      if (res.ok) {
+        setMessages(messages.map(m => m.id === id ? { ...m, isRead: !currentStatus } : m));
+      }
+    } catch (err) {
+      console.error("Failed to toggle read status:", err);
+    }
+  };
+
+  const handleDeleteMessage = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this message?")) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/contact?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setMessages(messages.filter(m => m.id !== id));
+        setSelectedMessage(null);
+      } else {
+        alert("Failed to delete message.");
+      }
+    } catch (err) {
+      console.error("Failed to delete message:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="space-y-4">
       <div className="grid gap-4">
-        {initialMessages.map((msg) => (
+        {messages.map((msg) => (
           <div 
             key={msg.id} 
-            onClick={() => setSelectedMessage(msg)}
-            className="group p-5 rounded-2xl bg-card border border-border hover:border-accent/40 hover:bg-accent/5 transition-all cursor-pointer relative overflow-hidden"
+            onClick={() => handleSelectMessage(msg)}
+            className={`group p-5 rounded-2xl bg-card border ${
+              msg.isRead ? "border-border/60 opacity-80" : "border-accent/40 bg-accent/5"
+            } hover:border-accent hover:opacity-100 transition-all cursor-pointer relative overflow-hidden`}
           >
             <div className="flex items-center justify-between gap-6">
               <div className="flex items-center gap-4 min-w-0">
-                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground group-hover:text-accent transition-colors">
-                  <User size={18} />
+                <div className="relative">
+                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground group-hover:text-accent transition-colors">
+                    <User size={18} />
+                  </div>
+                  {!msg.isRead && (
+                    <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-accent rounded-full border-2 border-background animate-pulse" />
+                  )}
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h3 className="font-bold text-foreground truncate">{msg.name}</h3>
-                    <span className="text-[10px] font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded uppercase">Inquiry</span>
+                    <span className="text-[10px] font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded uppercase">
+                      {msg.isRead ? "Read" : "New"}
+                    </span>
                   </div>
                   <div className="text-xs text-muted-foreground truncate">{msg.email}</div>
                 </div>
@@ -51,7 +120,27 @@ export default function MessageList({ initialMessages }: { initialMessages: Cont
                    <br />
                    {new Date(msg.createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                 </div>
-                <ExternalLink size={14} className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                
+                {/* Toggles */}
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={(e) => handleToggleRead(msg.id, msg.isRead, e)}
+                    className="p-1 rounded hover:bg-neutral-800 text-muted-foreground hover:text-foreground transition-colors"
+                    title={msg.isRead ? "Mark Unread" : "Mark Read"}
+                  >
+                    <CheckSquare size={14} className={msg.isRead ? "text-accent/60" : "text-muted-foreground"} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteMessage(msg.id);
+                    }}
+                    className="p-1 rounded hover:bg-rose-500/10 text-muted-foreground hover:text-rose-500 transition-colors opacity-0 group-hover:opacity-100"
+                    title="Delete Message"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -80,12 +169,22 @@ export default function MessageList({ initialMessages }: { initialMessages: Cont
                       <div className="text-sm text-accent font-semibold tracking-wide mt-1">{selectedMessage.email}</div>
                     </div>
                   </div>
-                  <button 
-                    onClick={() => setSelectedMessage(null)}
-                    className="p-3 rounded-xl hover:bg-muted transition-all text-muted-foreground hover:text-foreground border border-transparent hover:border-border"
-                  >
-                    <X size={20} />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      disabled={loading}
+                      onClick={() => handleDeleteMessage(selectedMessage.id)}
+                      className="p-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 transition-all border border-rose-500/20"
+                      title="Delete Inquiry"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                    <button 
+                      onClick={() => setSelectedMessage(null)}
+                      className="p-3 rounded-xl hover:bg-muted transition-all text-muted-foreground hover:text-foreground border border-transparent hover:border-border"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Content Area (Breathable & Scrollable) */}
