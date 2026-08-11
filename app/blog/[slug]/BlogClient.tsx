@@ -10,8 +10,6 @@ import {
   Eye, 
   Heart, 
   Share2, 
-  Linkedin, 
-  Twitter, 
   Check, 
   Copy,
   ChevronRight,

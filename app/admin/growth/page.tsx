@@ -1,10 +1,10 @@
 import { 
-  TrendingUp, Users, Activity, Globe, ArrowUpRight, 
+  TrendingUp, Users, Activity, Globe, 
   Monitor, Smartphone, Download, MousePointerClick, 
-  Clock, Search, Map, Calendar, Target, FileText, 
-  Share2, ChevronRight, BarChart3, PieChart,
-  MessageSquare, Mail, Tag, BookOpen, BrainCircuit,
-  Filter, Zap, Server, Link2, Copy, Plus, LineChart
+  Clock, Search, Map, FileText, 
+  Share2, BarChart3, PieChart,
+  MessageSquare, Tag, BookOpen, BrainCircuit,
+  Filter, Server, Link2, LineChart
 } from "lucide-react";
 import CopyableUTMLink from "@/components/admin/CopyableUTMLink";
 import HistoricalChart from "@/components/admin/HistoricalChart";
