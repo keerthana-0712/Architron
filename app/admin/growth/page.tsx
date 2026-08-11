@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { 
   TrendingUp, Users, Activity, Globe, 
   Monitor, Smartphone, Download, MousePointerClick, 
