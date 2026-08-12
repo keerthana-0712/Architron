@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { MessageSquare } from "lucide-react";
 import MessageList from "@/components/admin/MessageList";
 
-import { ContactMessage } from "@prisma/client";
+import { ContactMessage } from "../../generated/client";
 
 export const dynamic = "force-dynamic";
 

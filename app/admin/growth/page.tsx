@@ -11,7 +11,7 @@ import CopyableUTMLink from "@/components/admin/CopyableUTMLink";
 import HistoricalChart from "@/components/admin/HistoricalChart";
 import TrafficSimulator from "@/components/TrafficSimulator";
 import { db } from "@/lib/db";
-import { ContactMessage } from "@prisma/client";
+import { ContactMessage } from "../../../generated/client";
 
 export const dynamic = "force-dynamic";
 

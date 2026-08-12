@@ -6,7 +6,9 @@ const handler = clerkMiddleware(async (auth, req) => {
   if (isAdminRoute(req)) await auth.protect();
 });
 
-export default handler;
+export default function proxy(req: any, evt: any) {
+  return handler(req, evt);
+}
 
 export const config = {
   matcher: [
