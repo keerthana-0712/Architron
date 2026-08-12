@@ -17,7 +17,8 @@ export default function Experience({ initialExperiences }: { initialExperiences?
         "Built product architecture for global-scale user interaction",
         "Conceptualized AI-driven assistant (Flame) for user engagement",
         "Created end-to-end product vision (tech + user experience + scalability)"
-      ]
+      ],
+      type: "building"
     },
     {
       company: "Clientra | Agency OS",
@@ -27,8 +28,9 @@ export default function Experience({ initialExperiences }: { initialExperiences?
         "Architected a scalable multi-tenant SaaS platform supporting unlimited agencies and dedicated client portals.",
         "Engineered real-time status synchronization between frontend Kanban boards and backend WebSocket gateways.",
         "Designed a deeply nested RBAC system securely separating Admin, Manager, Developer, and Client data.",
-        "Implemented automated billing and finance systems using Razorpay, reducing manual overhead for tech agencies."
-      ]
+        "Implemented automated billing and finance systems using Razorpay, reducing manual overhead for tech agencies.",
+      ],
+      type: "building"
     },
     {
       company: "Ambassadors for the Lord",
@@ -38,8 +40,9 @@ export default function Experience({ initialExperiences }: { initialExperiences?
         "Designed and built a triple-tier spiritual sanctuary architecture ensuring 100% data integrity and user privacy.",
         "Implemented low-latency WebSocket communication for real-time spiritual counseling and community support.",
         "Scaled a prophetic teaching and sermon distribution engine using Next.js and NestJS for high performance.",
-        "Integrated automated notification workflows to enhance user engagement and pastoral follow-ups."
-      ]
+        "Integrated automated notification workflows to enhance user engagement and pastoral follow-ups.",
+      ],
+      type: "building"
     }
   ];
 
@@ -52,7 +55,8 @@ export default function Experience({ initialExperiences }: { initialExperiences?
         "Gaining hands-on experience with ServiceNow platform capabilities and digital workflow automation.",
         "Learning enterprise-grade service management and system integration patterns.",
         "Collaborating on automated solutions for complex business process challenges."
-      ]
+      ],
+      type: "work"
     },
     {
       company: "Edunet Foundation",
@@ -62,7 +66,8 @@ export default function Experience({ initialExperiences }: { initialExperiences?
         "Developed responsive and interactive user interfaces using modern frontend frameworks.",
         "Optimized web application performance and improved accessibility standards.",
         "Collaborated with cross-functional teams to deliver high-quality digital solutions."
-      ]
+      ],
+      type: "work"
     },
     {
       company: "ApexPlanet Software Pvt Ltd",
@@ -72,7 +77,8 @@ export default function Experience({ initialExperiences }: { initialExperiences?
         "Built and maintained full-stack web applications with a focus on scalable backend logic.",
         "Implemented secure authentication and data management systems for client-facing products.",
         "Worked on integrating third-party APIs and services to enhance platform functionality."
-      ]
+      ],
+      type: "work"
     },
     {
       company: "VISWAM.AI",
@@ -82,7 +88,8 @@ export default function Experience({ initialExperiences }: { initialExperiences?
         "Integrated AI models and LLM capabilities into production environments.",
         "Assisted in developing intelligent automation tools and conversational interfaces.",
         "Explored generative AI applications to solve real-world engineering problems."
-      ]
+      ],
+      type: "work"
     }
   ];
 
